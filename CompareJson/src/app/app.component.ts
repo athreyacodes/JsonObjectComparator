@@ -160,7 +160,7 @@ export class AppComponent {
         this.ValueDifferences.push({
           key: keyA,
           fullPath: fullPath,
-          valie1: a[keyA],
+          value1: a[keyA],
           value2: b[keyA]
         });
       }
@@ -175,7 +175,7 @@ export class AppComponent {
         this.ValueDifferences.push({
           key: keyB,
           fullPath: fullPath,
-          valie1: a[keyB],
+          value1: a[keyB],
           value2: b[keyB]
         });
       }
