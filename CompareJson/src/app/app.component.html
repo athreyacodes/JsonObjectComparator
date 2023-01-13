@@ -1,0 +1,113 @@
+<!-- Header -->
+<mat-toolbar color="primary">
+  <span>{{title}}</span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="example-icon favorite-icon" (click)="goToGithubPage()">
+    <img src="assets/icons/github-mark-white.svg" class="d-flex">
+  </button>
+</mat-toolbar>
+
+<mat-stepper orientation="vertical" linear="true" #stepper>
+  <mat-step [stepControl]="firstStepFormGroup">    
+      <ng-template matStepLabel>{{FirstFile?.name ? FirstFile.name : 'Select First File'}}</ng-template>
+        <input hidden (change)="FirstFileSelected($event)" #FirstFileInputEl type="file">
+        <button mat-stroked-button color="primary" (click)="FirstFileInputEl.click()">
+          Click to add file
+          <mat-icon>add</mat-icon>
+        </button>
+      <div class="mt-2">
+        <button mat-button matStepperNext [disabled]="!FirstFile">Next</button>
+      </div>
+  </mat-step>
+  <mat-step [stepControl]="secondStepFormGroup">
+      <ng-template matStepLabel>{{SecondFile?.name ? SecondFile.name : 'Select Second File'}}</ng-template>
+      <input hidden (change)="SecondFileSelected($event)" #SecondFileInputEl type="file">
+      <button mat-stroked-button color="primary" (click)="SecondFileInputEl.click()">
+        Click to add file
+        <mat-icon>add</mat-icon>
+      </button>
+      <div class="mt-2">
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext [disabled]="!SecondFile">Next</button>
+      </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Configuration</ng-template>
+    <mat-checkbox class="example-margin mt-2" [(ngModel)]="ComputeMissingKeys">Show Missing Keys in each file</mat-checkbox>
+    <mat-checkbox class="example-margin mt-2" [(ngModel)]="ComputeDiffInValues">Compare values</mat-checkbox>
+
+    <div class="mt-2">
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button color="primary" (click)="Compare()" [disabled]="!FirstFileObject || !SecondFileObject">Compare</button>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Result</ng-template>
+    <div class="mt-2">
+
+      <mat-accordion>
+        <mat-expansion-panel *ngIf="ComputeMissingKeys">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Missing Keys in {{FirstFileName}}.</mat-panel-title>
+            <mat-panel-description>
+              {{MissingKeysA.length}} keys found
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-list role="list">
+            <ng-container *ngFor="let item of MissingKeysA">              
+              <mat-list-item role="listitem">{{item}}</mat-list-item>
+              <mat-divider></mat-divider>
+            </ng-container>
+          </mat-list>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="ComputeMissingKeys">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Missing Keys in {{SecondFileName}}.</mat-panel-title>
+            <mat-panel-description>
+              {{MissingKeysB.length}} keys found
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-list role="list">
+            <ng-container *ngFor="let item of MissingKeysB">              
+              <mat-list-item role="listitem">{{item}}</mat-list-item>
+              <mat-divider></mat-divider>
+            </ng-container>
+          </mat-list>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="ComputeDiffInValues">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Value Differences.</mat-panel-title>
+            <mat-panel-description>
+              {{ValueDifferences.length}} differences found
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-list role="list">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Key</th>
+                  <th>Value in {{FirstFileName}}</th>
+                  <th>Value in {{SecondFileName}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of ValueDifferences">
+                  <td>{{item.fullPath}}</td>
+                  <td>{{item.value1}}</td>
+                  <td>{{item.value2}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </mat-list>
+        </mat-expansion-panel>
+      </mat-accordion>
+
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-stepper>
+
+
+
+<!--  -->
