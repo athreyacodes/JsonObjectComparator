@@ -2,8 +2,8 @@
 <mat-toolbar color="primary">
   <span>{{title}}</span>
   <span class="example-spacer"></span>
-  <button mat-icon-button class="example-icon favorite-icon" (click)="goToGithubPage()">
-    <img src="assets/icons/github-mark-white.svg" class="d-flex">
+  <button mat-icon-button class="d-flex" (click)="goToGithubPage()">
+    <i class="fa-brands fa-github"></i>
   </button>
 </mat-toolbar>
 
@@ -93,8 +93,20 @@
               <tbody>
                 <tr *ngFor="let item of ValueDifferences">
                   <td>{{item.fullPath}}</td>
-                  <td>{{item.value1}}</td>
-                  <td>{{item.value2}}</td>
+                  <td>
+                    <div class="d-flex justify-content-between">
+                      <div>{{item.value1}}</div>
+                      <button mat-icon-button class="d-flex" (click)="copy(item.value1)">
+                        <i class="fa-solid fa-copy"></i>
+                      </button>
+                    </div>
+                  </td>
+                  <td><div class="d-flex justify-content-between">
+                    <div>{{item.value2}}</div>
+                    <button mat-icon-button class="d-flex" (click)="copy(item.value2)">
+                      <i class="fa-solid fa-copy"></i>
+                    </button>
+                  </div></td>
                 </tr>
               </tbody>
             </table>

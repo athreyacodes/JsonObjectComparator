@@ -1,6 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
+import {Clipboard} from '@angular/cdk/clipboard';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -47,7 +49,7 @@ export class AppComponent {
     valueDiff: [[], Validators.required],
   });
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private clipboard: Clipboard, private snack: MatSnackBar) {}
 
   // Input Files
   FirstFileSelected(event: any) {
@@ -195,5 +197,10 @@ export class AppComponent {
 
   goToGithubPage() {
     window.open("https://github.com/athreyacodes/JsonObjectComparator","_blank");
+  }
+
+  copy(v: any) {
+    this.clipboard.copy(v);
+    this.snack.open(v);
   }
 }
